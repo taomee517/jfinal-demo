@@ -14,12 +14,12 @@ public class Org extends Model<Org> {
 
     public static final Org dao = new Org();
 
-    public static final String ORGID = "orgid";
-    public static final String NAME = "name";
+    public static final String ORGID = "id";
+    public static final String NAME = "org_name";
     public static final String LEVELCODE = "levelcode";
-    public static final String MEMO = "memo";
-    public static final String CREATOR = "creator";
-    public static final String CREATE_TIME = "create_time";
+    public static final String MANAGER = "manager_user";
+    public static final String CREATOR = "crt_uid";
+    public static final String CREATETIME = "crt_time";
 
     public int getOrgid() {
         return null==get(ORGID)?0:getNumber(ORGID).intValue();
@@ -45,12 +45,12 @@ public class Org extends Model<Org> {
         return set(LEVELCODE, value);
     }
 
-    public String getMemo() {
-        return (null==get(MEMO)||null==getStr(MEMO))?"":getStr(MEMO);
+    public String getManager() {
+        return (null==get(MANAGER)||null==getStr(MANAGER))?"":getStr(MANAGER);
     }
 
-    public Org setMemo(String value) {
-        return set(MEMO, value);
+    public Org setManager(String value) {
+        return set(MANAGER, value);
     }
 
     public int getCreator() {
@@ -62,11 +62,11 @@ public class Org extends Model<Org> {
     }
 
     public java.util.Date getCreate_time() {
-        return getTimestamp(CREATE_TIME);
+        return getTimestamp(CREATETIME);
     }
 
     public Org setCreate_time(java.util.Date value) {
-        return set(CREATE_TIME, value == null ? value : new java.sql.Timestamp(value.getTime()));
+        return set(CREATETIME, value == null ? value : new java.sql.Timestamp(value.getTime()));
     }
 }
 

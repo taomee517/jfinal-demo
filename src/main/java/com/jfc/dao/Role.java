@@ -9,11 +9,11 @@ public class Role extends Model<Role> {
   
   public static final Role dao = new Role();
   
-  public static final String ROLEID = "roleid";
-  public static final String LEVELCODE = "levelcode";
+  public static final String ROLEID = "id";
+  public static final String ROLETYPE = "role_type";
   public static final String NAME = "name";
-  public static final String MEMO = "memo";
-  public static final String CREATOR = "creator";
-  public static final String CREAT_TIME = "creat_time";
+  public static final String REMARK = "remark";
+  public static final String CREATOR = "crt_uid";
+  public static final String CREATTIME = "creat_time";
 }
 

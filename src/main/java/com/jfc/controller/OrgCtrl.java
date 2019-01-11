@@ -16,8 +16,14 @@ public class OrgCtrl extends Controller {
         int id = getParaToInt("id");
         Org org = new Org();
         org.setOrgid(id);
-        org =  org.findFirst("select * from org_1 where orgid=" + id);
-//        org = org.findById(id);
+        org =  org.findFirst("select * from sys_org where id=" + id);
+        renderJson(org);
+    }
+
+    public void queryOrg(){
+        int id = getParaToInt("id");
+        String name = getPara("name");
+        Org org = Org.dao.findById(id);
         renderJson(org);
     }
 }

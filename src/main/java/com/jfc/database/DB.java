@@ -21,11 +21,11 @@ import com.jfinal.plugin.druid.DruidPlugin;
  *@author houyu
  */
 public class DB{
-    public static final String URL = "jdbc:mysql://192.168.6.160:3306/db_carshare_auto?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&nullNamePatternMatchesAll=true&serverTimezone=Asia/Shanghai";
+    public static final String URL = "jdbc:mysql://192.168.6.160:3306/db_ucenter?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&nullNamePatternMatchesAll=true&serverTimezone=Asia/Shanghai";
     public static final String USER = "root";
     public static final String PWD = "fastgo123";
     private static org.slf4j.Logger logger = LogUtil.getLogger(DB.class);
-    public final static String DBNAME = "carshare";
+    public final static String DBNAME = "db_ucenter";
     ActiveRecordPlugin plugin = null;
 
     private static class SingletonHolder {
@@ -40,7 +40,7 @@ public class DB{
 
             DruidPlugin pool = new DruidPlugin(url, user, password);
             //			pool.setDriverClass("org.postgresql.Driver");
-            pool.setDriverClass("com.mysql.cj.jdbc.Driver");
+            pool.setDriverClass("com.mysql.jdbc.Driver");
             pool.setMaxActive(1000);
             pool.setInitialSize(10);
             pool.setMinIdle(1);

@@ -2,7 +2,6 @@ package com.jfc.database;
 
 import com.jfc.dao.Org;
 import com.jfc.dao.Role;
-import com.jfc.dao.Vehicle;
 import com.jfc.enums.DefaultValue;
 import com.jfc.util.LogUtil;
 import com.jfc.util.SQLUtil;
@@ -30,9 +29,8 @@ public class DS {
 	 * @param arp
 	 */
 	public static void registeClasses(ActiveRecordPlugin arp) {
-		arp.addMapping("vehicle", Vehicle.VEHICLEID, Vehicle.class);
-		arp.addMapping("org", Org.ORGID, Org.class);
-		arp.addMapping("role", Role.ROLEID, Role.class);
+		arp.addMapping("sys_org", Org.ORGID, Org.class);
+		arp.addMapping("sys_role", Role.ROLEID, Role.class);
 	}
 
 	/**
