@@ -5,6 +5,7 @@ package com.jfc;
 
 import com.jfc.component.IComponentVersion;
 import com.jfc.enums.ComponentEnum;
+import com.jfc.util.LogUtil;
 import com.jfc.util.StrUtil;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
@@ -19,6 +20,7 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.FilterInfo;
+import org.slf4j.Logger;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletException;
@@ -28,7 +30,7 @@ import javax.servlet.ServletException;
  *
  */
 public class StartServer implements IComponentVersion {
-	//private static org.slf4j.Logger logger = LogUtil.getLogger(StartUp.class);
+	private static Logger logger = LogUtil.getLogger(StartServer.class);
 
 	public static final String APPNAME = "/";
 

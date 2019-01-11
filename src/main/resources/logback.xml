@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration scan="true" scanPeriod="600 seconds">
+    <property name="LOG_HOME" value="/home/jfinal/demo/logs"/>
+    <timestamp key="timestamp" datePattern="yyyyMMddHHmmssSSS"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{32} %msg%n
+            </pattern>
+        </layout>
+    </appender>
+    <appender name="FILE_ACCESS"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${LOG_HOME}/access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/access/%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyyMMddHHmmssSSS}★%X{entityid}★%msg▼%n
+            </pattern>
+        </encoder>
+
+    </appender>
+
+    <appender name="FILE_MONGO"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/access_mongo.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/access_mongo/%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyyMMddHHmmssSSS}★%msg▼%n
+            </pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="FILE_DB"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${LOG_HOME}/access_db.log</file>
+        <!-- ${LOG_HOME} 这里面的一些bug: -->
+        <!-- 1.除了按小时分割外, 其它的都是按index的数量保留的,但是小时的策略非常不同: 这里是最多保留1个小时. 当进入到第三个1小时时,才会删除第一个1小时的数据.
+            第二个1小时会保留. -->
+        <!-- 2.tomcat启动方式,必须是webapps里面只包含了root, 如果war包放在webapps中, 自动解压出来并启动, 这样会建立分割的文件夹,但是日志不会滚动. -->
+        <!-- 3.时间顺序不严格问题. -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/access_db/%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyyMMddHHmmssSSS}★%msg▼%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_DEBUG"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${LOG_HOME}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/debug/debug-%i.log.zip
+            </fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>100</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %logger{32} %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE_INFO"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${LOG_HOME}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/info/%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyyMMddHHmmssSSS}★%X{entityid}★%thread★%logger{32}★%msg%rootException▼%n
+            </pattern>
+        </encoder>
+        <!-- 只打印INFO日志 -->
+        <!-- <filter class="ch.qos.logback.classic.filter.LevelFilter"> <level>INFO</level>
+            <onMatch>ACCEPT</onMatch> <onMismatch>DENY</onMismatch> </filter> -->
+
+        <!-- 把error也打印到info中 , 方便连贯查看 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+    <appender name="FILE_ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <file>${LOG_HOME}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/error/%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyyMMddHHmmssSSS}★%X{entityid}★%thread★%logger{32}★%msg%rootException▼%n
+            </pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="FILE_ACCESS_DB_AUDIT"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/access_db_audit.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/access_db_audit/%d{yyyy-MM-dd_HH-mm}.%i.log
+            </fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%msg▼</pattern>
+        </encoder>
+    </appender>
+    <!-- hadoop目录格式为：/%Y%m%d/%{application}/%{dir} 对应application配置节和additionalAvroHeaders中的dir，其中dir可以为不配置 -->
+    <!--	<appender name="flume" class="com.blackTea.logger.flume.FlumeLogstashV1Appender">
+            &lt;!&ndash; 此项是连接flume节点的ip和端口 &ndash;&gt;
+            <flumeAgents>192.168.6.181:44444</flumeAgents>
+            <flumeProperties>connect-timeout=4000;request-timeout=8000</flumeProperties>
+            <batchSize>100</batchSize>
+            <reportingWindow>1000</reportingWindow>
+            &lt;!&ndash; 此项配置avro头部信息，dir标识目录 &ndash;&gt;
+            <additionalAvroHeaders>dir=logs</additionalAvroHeaders>
+            &lt;!&ndash; 此项配置当前应用 &ndash;&gt;
+            <application>acceptor</application>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>INFO</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+
+        </appender>
+        -->
+    <logger name="DING_OPEN_CLIENT_SDK_LOGGER" level="OFF"/>
+    <logger name="HTTP_INVOKE_LOGGER" level="OFF"/>
+    <logger name="org.eclipse.jetty" level="WARN"/>
+    <logger name="com.mchange.v2" level="WARN"/>
+    <logger name="access" level="info" additivity="false">
+        <appender-ref ref="FILE_ACCESS"></appender-ref>
+    </logger>
+    <!-- additivity =false 代表不往上面抛. 不会抛到root中的appender定义 -->
+    <logger name="access_db" level="info" additivity="false">
+        <appender-ref ref="FILE_DB"></appender-ref>
+    </logger>
+    <logger name="access_db_audit" level="info" additivity="false">
+        <appender-ref ref="FILE_ACCESS_DB_AUDIT"></appender-ref>
+    </logger>
+    <logger name="access_mongo" level="info" additivity="false">
+        <appender-ref ref="FILE_MONGO"></appender-ref>
+    </logger>
+    <logger name="com.opensymphony.xwork2.ognl.OgnlValueStack"
+            additivity="false">
+        <level value="fatal"/>
+    </logger>
+    <!--	<logger name="access_flume"  level="info">
+            <appender-ref ref="flume" />
+        </logger>-->
+    <root level="INFO">
+        <!-- <appender-ref ref="STDOUT" /> -->
+        <appender-ref ref="FILE_ERROR"/>
+        <appender-ref ref="FILE_INFO"/>
+        <!-- <appender-ref ref="FILE_DEBUG" /> -->
+    </root>
+
+</configuration>
